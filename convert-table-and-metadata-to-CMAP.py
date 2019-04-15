@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import csv
 import pandas as pd
@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(description='This script takes an eASV spreadsh
 parser.add_argument('--input_normalized', help='Your normalized tsv output from your biom spreadsheet, including taxonomy.')
 parser.add_argument('--input_metadata', help='A tsv spreadsheet with the study metadata you wish to include. Must be indexed by qiime2-ID in a similar manner as described for sample-metadata.tsv in qiime2.')
 parser.add_argument('--input_membership_summary', help='A tsv spreadsheet describing the membership of your clusters in the format centroid\tmember1,member2, ... ,memberN')
-parser.add_argument('--output_opedia', help='Your output for Opedia as a tsv spreadsheet.')
+parser.add_argument('--output_cmap', help='Your output for CMAP as a tsv spreadsheet.')
 
 args = parser.parse_args()
 
@@ -24,7 +24,7 @@ iMembers = 0
 
 hashMembership = {}
 
-if args.input_membership_summary is not None: #If argument for 
+if args.input_membership_summary is not None: #If argument for
 	for astrLine in csv.reader(open(args.input_membership_summary), csv.excel_tab):
 		hashMembership[astrLine[0]] = astrLine[1]
 
@@ -38,9 +38,9 @@ for astrLine in csv.reader(handle, delimiter='\t'):
 			strClustLevel = astrLine[0].split(';')[1][0:2]
 			strClustType = "VSEARCH clust. ESVs, %s pc ID" % strClustLevel
 			boolClustCheck = False
-	
+
 	if len(astrLine[0].split(';')) > 1: #Check if plain ESV or cluster centroid
-		
+
 		strMembers = hashMembership[astrLine[0].split(';')[0]]
 		iMembers = len(hashMembership[astrLine[0].split(';')[0]].split(',')) #Get string of membership from dict parsed from external file
 
@@ -53,26 +53,26 @@ for astrLine in csv.reader(handle, delimiter='\t'):
 	ESVid=astrLine[0]
 
 	for i in range(len(aSamples)):
-			
+
 		uniquekey = aSamples[i] + ":" + ESVid #A unique key that combines sample and ESV
-	    
+
 		hashKeys.append(uniquekey) #Add to an array
-	    
+
 	for item in hashKeys: #Iterate over unique IDs
-			
+
 		abund = astrLine[ hashKeys.index(item) + 2 ] # Get abundance for ESV at particular station
-	    
+
 		qiime2_ID = item.split(":")[0]
 		hashSamples[item] = [ESVid, qiime2_ID, abund, iStudyMax, strClustLevel, strClustType, strMembers, iMembers] #add to dictionary
-	    
+
 		counter = 0
-		    
+
 		for i in range(len(astrLine[1].split(';'))): #Split out the taxonomic levels
-			
+
 			strToReplace = "D_" + str(i) + "__"
 			hashSamples[item].append(astrLine[1].split(';')[i].replace(strToReplace,""))
 			counter += 1
-			
+
 		for i in range(counter,7):
 			hashSamples[item].append(aTaxBlank[i]) #Fill empty taxonomic identifiers with placeholders
 
