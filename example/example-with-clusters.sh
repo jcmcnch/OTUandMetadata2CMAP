@@ -2,9 +2,11 @@
 
 source activate opedia-env
 
-metadata=00-metadata/ANT28-5_Free-Living_0.2-3uM_fraction_with_counts_metadata.tsv
+metadata=00-metadata/ANT28-5-Small-Particle-Associated_3-8uM_fraction_with_counts_metadata.tsv
 
-filestem="ANT-28-5_Free-Living_0.2-3uM_fraction"
+filestem="ANT28-5_Small-Particle-Associated_3-8uM_fraction"
+
+mkdir 01-modified-tables-clustered
 
 for item in `ls 00-input-tables-clustered/*`; do
 
@@ -12,9 +14,13 @@ for item in `ls 00-input-tables-clustered/*`; do
 
 done
 
+mkdir 02-output-CMAP/
+
 for item in `ls 01-modified-tables-clustered/*`; do
 
 	../scripts/modify-ESV-headers-for-clusters.sh $item
+
+	sed -i -re 's/Kingdom\.(\S+)/\1/g;s/Supergroup\S+//g;s/Phylum\.(\S+)/\1/g;s/Class\.(\S+)/\1/g;s/Subclass\S+//g;s/Order\.(\S+)/\1/g;s/Suborder\S+//g;s/Family\.(\S+)/\1/g;s/Genus\.(\S+)/\1/g;s/Species\.(\S+)/\1/g' $item
 
 	clusteringlevel=`echo $item | grep -Eo "[[:digit:]]{2}pc" | sed 's/pc//'`
 
