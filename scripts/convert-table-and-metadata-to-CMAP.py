@@ -18,7 +18,7 @@ hashSamplesHeader = ["ESV_ID_or_Cluster_Centroid", "qiime2-ID", "Relative_Abunda
 aTaxBlank = ["","","","","","",""]
 boolClustCheck = True
 strClustLevel = 100
-strClustType = "None, deblur ESV"
+strClustType = "None, DADA2 ESV"
 strMembers = ""
 iMembers = 0
 
