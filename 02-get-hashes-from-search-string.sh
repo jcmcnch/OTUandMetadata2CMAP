@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p hashes
+
 if [[ ${#1} -eq 0 ]] ; then
     echo 'Please enter a search string.'
     exit 0
