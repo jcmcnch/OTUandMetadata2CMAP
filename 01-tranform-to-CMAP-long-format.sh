@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/bash -i
 
 if [[ ${#1} -eq 0 ]] ; then
     echo 'Please enter an informative name for the output table as the second argument after the script (no spaces).'
     exit 0
 fi
 
-source activate opedia-env
+conda activate opedia-env
 
 metadata=00-metadata/sample-metadata.tsv
 
