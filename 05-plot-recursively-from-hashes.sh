@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -i
+
+conda activate r-oce
 
 for item in filtered/*csv; do
 
