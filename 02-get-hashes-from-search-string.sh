@@ -7,7 +7,7 @@ if [[ ${#1} -eq 0 ]] ; then
     exit 0
 fi
 
-for hash in `grep $1 abund-filtered-tables/*tsv | cut -f1` ; do 
+for hash in `grep $1 00-input-subsetted/*tsv | cut -f1` ; do 
 
 	searchString=$1
 
