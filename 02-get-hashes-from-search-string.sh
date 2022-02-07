@@ -7,6 +7,7 @@ if [[ ${#1} -eq 0 ]] ; then
     exit 0
 fi
 
+#search for target hashes in subsetted table
 for hash in `grep $1 00-input-subsetted/*tsv | cut -f1` ; do 
 
 	searchString=$1
